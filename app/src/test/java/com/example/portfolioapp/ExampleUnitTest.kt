@@ -1,4 +1,4 @@
-package com.example.appkotlin
+package com.example.portfolioapp
 
 import org.junit.Test
 
