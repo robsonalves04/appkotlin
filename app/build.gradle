@@ -1,0 +1,154 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+}
+
+android {
+    namespace 'com.example.kdsmobile'
+    compileSdk 34
+
+    buildFeatures {
+        compose true
+    }
+
+    defaultConfig {
+        applicationId "com.example.kdsmobile"
+        minSdk 24
+        targetSdk 34
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildFeatures {
+        buildConfig = true
+    }
+
+    // --== Definição de variáveis de ambiente ==-- \\
+    ext {
+        podsmartAPI = [
+                dev    : 'http:/167.172.1.206:7078',
+//                dev : 'http:/api-staging-cardapio.vibebr.me'
+        ]
+        gatewayAPI = [
+                dev    : 'http:/167.172.1.206:7078'
+        ]
+        podsmartAPIWebSocket = [
+                staging: 'https://api-staging-podsmart.vibebr.me',
+                dev    : 'http:/167.172.1.206:7078'
+        ]
+        podsmartAPIWebSocketChannel = [
+                staging: "stag-ticket-gateway",
+                dev    : "stag-ticket-gateway"
+        ]
+    }
+    // --== Definição de variáveis de ambiente ==-- \\
+
+
+    // --==## CONFIGURAÇÃO DE AMBIENTES ##==-- \\
+    signingConfigs {
+        dev {
+            keyAlias 'kds-mobile'
+            keyPassword '4MD_y!IBI}B$2Z00(-Mk12Do^@f'
+            storeFile file('kds-mobile.jks')
+            storePassword '4MD_y!IBI}B$2Z00(-Mk12Do^@f'
+        }
+    }
+
+    // --==## CONFIGURAÇÃO DE AMBIENTES ##==-- \\
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+
+        dev {
+            debuggable true
+            signingConfig signingConfigs.dev
+            buildConfigField "String", "PODSMART_API_URL", "\"${podsmartAPI.dev}\""
+            buildConfigField "String", "GATEWAY_API_URL", "\"${gatewayAPI.dev}\""
+            buildConfigField "String", "PODSMART_WEBSOCKET", "\"${podsmartAPIWebSocket.dev}\""
+            buildConfigField "String", "PODSMART_WEBSOCKET_CHANNEL", "\"${podsmartAPIWebSocketChannel.dev}\""
+        }
+
+    }
+    // --==## CONFIGURAÇÃO DE AMBIENTES ##==-- \\
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.4.6"
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    packagingOptions {
+        exclude 'META-INF/retrofit.kotlin_module'
+    }
+    
+}
+
+dependencies {
+
+    // -- GSON
+    implementation 'com.google.code.gson:gson:2.8.8'
+
+    // -- KOIN
+    implementation 'io.insert-koin:koin-android:3.4.3'
+    implementation 'io.insert-koin:koin-androidx-compose:3.4.3'
+
+    // -- COIL
+    implementation("io.coil-kt:coil-compose:2.3.0")
+//    "io.coil-kt:coil:2.5.0"
+    implementation 'androidx.compose.material3:material3:1.1.2'
+    testImplementation 'junit:junit:4.12'
+
+    def composeBom = platform('androidx.compose:compose-bom:2023.08.00')
+    implementation composeBom
+    androidTestImplementation composeBom
+
+    implementation 'androidx.compose.material:material:1.5.4'
+    implementation 'com.google.android.material:material:1.12.0-alpha01'
+    implementation 'androidx.compose.runtime:runtime-livedata:1.6.0-beta01'
+
+    implementation 'org.jetbrains.kotlin:kotlin-reflect:1.9.10'
+    implementation 'androidx.compose.foundation:foundation-layout:1.5.4'
+    implementation 'androidx.activity:activity-compose:1.8.1'
+    implementation 'androidx.compose.ui:ui-tooling-preview'
+    implementation "androidx.emoji2:emoji2-views-helper:1.4.0"
+    debugImplementation 'androidx.compose.ui:ui-tooling'
+    androidTestImplementation 'androidx.compose.ui:ui-test-junit4'
+    debugImplementation 'androidx.compose.ui:ui-test-manifest'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation"org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0-RC"
+
+    //--Carrossel
+    implementation 'com.google.accompanist:accompanist-pager:0.33.2-alpha'
+//    implementation "androidx.compose.ui:ui-util:$kotlin_version"
+
+    // -== Adiciona mais icones ==- \\
+    implementation "androidx.compose.material:material-icons-extended:1.6.0-beta01"
+    // -== Adiciona mais icones ==- \\
+
+    // -== Dependências relacionadas ao OkHttp ==- \\
+    implementation 'com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.11'
+    implementation 'com.squareup.okhttp3:okhttp:5.0.0-alpha.11'
+    implementation("com.squareup.okhttp3:okhttp:4.9.1")
+    // -== Dependências relacionadas ao OkHttp ==- \\
+
+    implementation 'com.google.zxing:core:3.2.0'
+
+    // -== SignalR  ==- \\
+    implementation 'com.microsoft.signalr:signalr:6.0.25'
+    // -== SignalR  ==- \\
+
+    // -== Biblioteca do lottie ==- \\
+    implementation 'com.airbnb.android:lottie-compose:6.1.0'
+    // -== Biblioteca do lottie ==- \\
+}

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">192.168.0.110</domain>
+        <domain includeSubdomains="true">192.168.0.116</domain>
+        <domain includeSubdomains="true">167.172.1.206</domain>
+        <domain includeSubdomains="true">api-staging-podsmart.vibebr.me</domain>
+        <domain includeSubdomains="true">api-staging-cardapio.vibebr.me</domain>
+
+    </domain-config>
+</network-security-config>
